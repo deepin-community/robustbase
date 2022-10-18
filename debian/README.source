@@ -1,0 +1,146 @@
+
+Explanation for binary files inside source package according to
+  http://lists.debian.org/debian-devel/2013/09/msg00332.html
+
+Files: inst/external/d1k27.rda
+Documentation: tests/subsample.R
+  -> simulated data used in regression tests
+
+Files: data/heart.rda
+Documentation: man/heart.Rd
+  -> This data set was analyzed by Weisberg (1980) and Chambers et al. (1983)
+
+Files: data/alcohol.rda
+Documentation: man/alcohol.Rd
+  -> Alcohol Solubility in Water Data from Martin and Yohai (2006)
+
+Files: data/toxicity.rda
+Documentation: man/toxicity.Rd
+  -> Toxicity of Carboxylic Acids Data from Maguna et al (2003(
+
+Files: data/lactic.rda
+Documentation: man/lactic.Rd
+  -> Lactic Acid Concentration Measurement Data from Rousseeuw and Leroy (1987)
+
+Files: data/aircraft.rda
+Documentation: man/aircraft.Rd
+  -> Aircraft Data from Rousseeuw and Leroy (1987)
+
+Files: data/carrots.rda
+Documentation: man/carrots.Rd
+  -> Insect Damages on Carrots from McCullagh and Nelder (1989)
+
+Files: data/salinity.rda
+Documentation: man/salinity.Rd
+  -> Salinity Data from Rousseeuw and Leroy (1987)
+
+Files: data/wood.rda
+Documentation: man/wood.Rd
+  -> Modified Data on Wood Specific Gravity from Draper and Smit (1966)
+
+Files: data/education.rda
+Documentation: man/education.Rd
+  -> Education Expendenture Data from Rousseeuw and Leroy (1987)
+
+Files: data/starsCYG.rda
+Documentation: man/starsCYG.Rd
+  -> Hertzsprung-Russell Diagram Data of Star Cluster CYG OB1 from Rousseeuw and Leroy (1987)
+
+Files: data/pulpfiber.rda
+Documentation: man/pulpfiber.Rd
+  -> Pulp Fiber and Paper Data from Rousseeuw et al (2004)
+
+Files: data/delivery.rda
+Documentation: man/delivery.Rd
+  -> Delivery Time Data from Rousseeuw and Leroy (1987)
+
+Files: data/los.rda
+Documentation: man/los.Rd
+  -> Length of Stay Data from Ruffieux, C., Paccaud, F. and A. Marazzi (2000)
+
+Files: data/telef.rda
+Documentation: man/telef.Rd
+  -> Number of International Calls from Belgium from Rousseeuw and Leroy (1987)
+
+Files: data/wagnerGrowth.rda
+Documentation: man/wagnerGrowth.Rd
+  -> Wagner's Hannover Employment Growth Data from Hubert and Rousseeuw (1997)
+
+Files: data/NOxEmissions.rda
+Documentation: man/NOxEmissions.Rd
+  -> NOx Air Pollution Data from Locher
+
+Files: data/possumDiv.rda
+Documentation: man/possumDiv.Rd
+  -> Possum Diversity Data from Cantoni (2004)
+
+Files: data/foodstamp.rda
+Documentation: man/foodstamp.Rd
+  -> Food Stamp Program Participation from Stefanski et al.(1986)
+
+Files: data/airmay.rda
+Documentation: man/airmay.Rd
+  -> Air Quality Data from Rousseeuw and Leroy (1987)
+
+Files: data/pension.rda
+Documentation: man/pension.Rd
+  -> Pension Funds Data from Rousseeuw and Leroy (1987)
+
+Files: data/cloud.rda
+Documentation: man/cloud.Rd
+  -> Cloud point of a Liquid from Rousseeuw and Leroy (1987)
+
+Files: data/pilot.rda
+Documentation: man/pilot.Rd
+  -> Pilot-Plant Data from Rousseeuw and Leroy (1987)
+
+Files: data/hbk.rda
+Documentation: man/hbk.Rd
+  -> Hawkins, Bradu, Kass's Artificial Data from Rousseeuw and Leroy (1987)
+
+Files: data/biomassTill.rda
+Documentation: man/biomassTill.Rd
+  -> Biomass Tillage Data from Stepanovic and Laborde
+
+Files: data/vaso.rda
+Documentation: man/vaso.Rd
+  -> Vaso Constriction Skin Data Set from Finney (1947)
+
+Files: data/ambientNOxCH.rda
+Documentation: man/ambientNOxCH.Rd
+  -> Daily Means of NOx (mono-nitrogen oxides) in air from http://www.in-luft.ch/
+
+Files: data/coleman.rda
+Documentation: man/coleman.Rd
+  -> Coleman Data Set form Rousseeuw and Leroy (1987)
+
+Files: data/epilepsy.rda
+Documentation: man/epilepsy.Rd
+  -> Epilepsy Attacks Data Set from Thall and Vail (1990)
+
+Files: data/condroz.rda
+Documentation: man/condroz.Rd
+  -> Condroz Data from Hubert and Vandervieren (2006)
+
+Files: data/phosphor.rda
+Documentation: man/phosphor.Rd
+  -> Phosphorus Content Data from Rousseeuw and Leroy (1987)
+
+Files: data/CrohnD.rda
+Documentation: man/CrohnD.Rd
+  -> Crohn's Disease Adverse Events Data from Lô and Ronchetti (2006)
+
+Files: data/milk.rda
+Documentation: man/milk.Rd
+  -> Daudin's Milk Composition Data from Daudin, Duby and Trecourt (1988)
+
+Files: data/bushfire.rda
+Documentation: man/bushfire.Rd
+  -> Campbell Bushfire Data from Maronna and Yohai (1995)
+
+Files: data/radarImage.rda
+Documentation: man/radarImage.Rd
+  -> Satellite Radar Image Data from near Munich from Maguna, Núñez, Okulik, and Castro (2003)
+
+                                                                                    
+ -- Dirk Eddelbuettel <edd@debian.org>, Sun,  5 Nov 2017 18:16:30 -0600

@@ -1,0 +1,21 @@
+Source: robustbase
+Section: gnu-r
+Priority: optional
+Maintainer: Dirk Eddelbuettel <edd@debian.org>
+Build-Depends: debhelper-compat (= 11), r-base-dev (>= 4.1.1), dh-r, r-cran-deoptimr
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/edd/r-cran-robustbase
+Vcs-Git: https://salsa.debian.org/edd/r-cran-robustbase.git
+Homepage: https://cran.r-project.org/package=robustbase
+
+Package: r-cran-robustbase
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${R:Depends}, r-cran-deoptimr
+Description: GNU R package providing basic robust statistics
+ This package provides 'essential' robust statistics. The goal of the 
+ package is to provide tools allowing to analyze data with robust methods.  
+ This includes regression methodology including model selections and 
+ multivariate statistics where the authors strive to cover the book 
+ "Robust Statistics,  Theory and Methods" by Maronna, Martin and Yohai; 
+ Wiley 2006.
+
