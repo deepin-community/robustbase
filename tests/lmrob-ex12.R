@@ -1,7 +1,5 @@
 
 library(robustbase)
-source(system.file("test-tools-1.R", package="Matrix", mustWork=TRUE))
-##-> assertError(), etc
 
 set.seed(1) # since now .Random.seed is used by default!
 
@@ -105,7 +103,7 @@ n <- 2500 ; n0 <- n %/% 10
 a2 <- gen(n=n, p = 3, n0= n0, y0=10, x0=10)
 plot(a2$x[,1], a2$y, col = c(rep(2, n0), rep(1, n-n0)))
 rs <- .Random.seed
-system.time( m3 <- lmrob(y~x, data = a2) )
+system.time( m3 <- lmrob(y~x, data = a2, trace.lev=2) )
 m3
 nrs <- .Random.seed # <-- to check that using 'seed' keeps .Random.seed
 system.time( m4 <- lmrob(y~x, data = a2, seed = rs, compute.rd = FALSE))
@@ -200,8 +198,19 @@ coleman16 <- coleman[ -c(2, 7, 16, 19),]
 (m16 <- lmrob(Y ~ ., data = coleman16, tuning.psi = 3.44, trace.lev = TRUE))
 ## failed in 0.9_0
 
-assertWarning(verbose = TRUE,
- lmrob(Y ~ ., data = coleman, setting = "KS2011", control = lmrob.control())
+ctrl <- lmrob.control()
+tools::assertWarning(verbose = TRUE,
+  lmrob(Y ~ ., data = coleman, setting = "KS2011", control = ctrl)
 )
+
+## perfect fit ex. from Thomas Wang, Jan.26, 2024:
+x <- c(8, 16, 4, 24)
+y <- c(3328, 6656, 1664, 9984)
+tools::assertWarning(verbose = TRUE,
+   fmS <- lmrob.S(x, y, ctrl)# gave a bad error in robustbase 0.99-{0,1}
+)
+stopifnot(all.equal(416, fmS$coeff, tolerance = 1e-15),
+          fmS$scale == 0, fmS$residuals == 0)
+
 
 cat('Time elapsed: ', proc.time(),'\n') # "stats"
