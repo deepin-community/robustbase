@@ -104,7 +104,7 @@ dummy.coef.lm <- function(object, use.na=FALSE, ...)
 
 }# if R <= 3.1.0
 
-## Not exported, and only used because CRAN checks must be faster
+## Not exported; used for faster checking, e.g., on CRAN
 doExtras <- function() {
     interactive() || nzchar(Sys.getenv("R_robustbase_check_extra")) ||
         identical("true", unname(Sys.getenv("R_PKG_CHECKING_doExtras")))
@@ -147,3 +147,8 @@ is.1num <- function(x) is.numeric(x) && length(x) == 1L
         } else  # default
             vc
     }
+
+
+## e.g. for once-per-session warnings:
+.optEnv <- new.env(parent = emptyenv(), hash = FALSE)
+

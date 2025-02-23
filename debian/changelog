@@ -1,3 +1,71 @@
+robustbase (0.99-4-1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 27 Sep 2024 11:04:41 -0500
+
+robustbase (0.99-4-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 25 Aug 2024 21:24:28 -0500
+
+robustbase (0.99-3-1) unstable; urgency=medium
+
+  * New upstream release
+
+  * debian/control: Set Build-Depends: to current R version
+  * debian/control: Set Standards-Version: to current version 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 08 Jul 2024 01:22:35 -0500
+
+robustbase (0.99-2-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 27 Jan 2024 11:12:39 -0600
+
+robustbase (0.99-1-1) unstable; urgency=medium
+
+  * New upstream release
+
+  * debian/control: Set Build-Depends: to current R version
+  * debian/control: Switch to virtual debhelper-compat (= 13)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 29 Nov 2023 20:07:17 -0600
+
+robustbase (0.99-0-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 19 Jun 2023 07:56:57 -0500
+
+robustbase (0.95-1-2) unstable; urgency=medium
+
+  * Rebuilding for unstable following bookworm release
+  
+  * debian/control: Set Build-Depends: to current R version
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 18 Jun 2023 11:51:20 -0500
+
+robustbase (0.95-1-1) experimental; urgency=medium
+
+  * New upstream release (into 'experimental' while Debian is frozen)
+
+  * debian/control: Set Build-Depends: to current R version
+  * debian/control: Set Standards-Version: to current version 
+  * debian/control: Switch to virtual debhelper-compat (= 12)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 05 Apr 2023 22:56:35 -0500
+
+robustbase (0.95-0-1) unstable; urgency=medium
+
+  * New upstream release
+
+  * debian/control: Set Build-Depends: to current R version
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 02 Apr 2022 17:06:58 -0500
+
 robustbase (0.93-9-1) unstable; urgency=medium
 
   * New upstream release

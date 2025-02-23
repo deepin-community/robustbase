@@ -1,6 +1,21 @@
 				-*- org -*- C-c C-o follows link[MM: grep-r -e '\(FIXME\|TODO\)']
 
 * Before next release
+** TODO  glmrob() -- bug = R-forge bug : *warn* when family = "gaussian":
+     they should rather use  lmrob() !!
+    ==> ~/R/MM/Pkg-ex/robustbase/glmrob_ChrSchoetz-ex.R
+
+** TODO when lmrob.S() detects exact fit (in C code), it *should* return it, incl scale = 0
+    *and* it should have correct rweights[] in {0,1} and residuals[];
+    (fitted[] computed in R code after .C() call);
+    ==> ~/R/MM/Pkg-ex/robustbase/ThMang_lmrob.R
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ and >>> tests/subsample.R (bottom) <<<-------
+
+*** in src/lmrob.c: Currently there *two* such situations the first explicit when
+      #{zero resid} >=  ~ (n + p)/2 {--> theory of *modified* MAD
+      ==> ~/R/MM/STATISTICS/robust/tmad.R
+*** lmrob() calling lmrob..M.. after that should "work", optionally/always ?? using a non-zero scale,
+    ------- it might use Martin's tmad() {trimmed mean of absolute deviations from the median}
 ** DONE print(<covMcd>) and print(summary(<covMcd>)): 'method' almost twice; show iBest
    for "deterministic"
 ** DONE covMcd(): allow 'hsets.ini' argument to covMcd(), and *return* them (optionally) as 'Hsubsets'
@@ -20,14 +35,19 @@
 **** DONE shouldn't we rename jde() to jdeopt() or even jdeoptim(), jDEoptim(), or JDEoptim()
 R users already know optim() etc.. so the name seems more logical for them.
 * Short Term
+** DONE lmrob.tau.fast.coefs() calls `coef(lmrob( <y> ~ <x> -1))` ... should use `lmrob.fit()` !
+** TODO lmrob.S() -> lmrob.control() should get nResample = "exact" -- as covMcd() / ltsReg() :
+***    use Fortran routines rfncomb() and rfgenp() [in src/rf-common.f -> need F77_name(.) / F77_CALL(.)] from C
+****    or even just right a version for C indices in {0, 1, ..., p-1}  instead of Fortran {1, 2, ...., p}
 ** DONE sc.1) Qn(), Sn()  should work with 'NA' (via 'na.rm=FALSE' argument, as mad())
 ** DONE sc.2) Qn(), Sn()  should work with Inf and "large x", see example(mc)
-** TODO sc.2) mc() should work better with "large x", see example(mc)
+** DONE sc.2) mc() now works better with "large x", see example(mc) --- BSc thesis by Lukas Graz
+** DONE fixed: mc(x) can *fail* to converge: thesis Lukas Graz {and ~/R/MM/Pkg-ex/robust/Robnik-mc.R }
+** DONE Now that mc() works, also define lmc() and rmc() (left and right tail measures).
 ** TODO Try  scaleTau2(*, iterate=TRUE) or 'iter=TRUE' (which can have 'iter = 10' etc)
 ** TODO [Peter Filzmoser, Geneva 2016-07-07 talk]: covMcd() warns when n < 2*p .. should not *warn* but give message()
 ** TODO [Peter Filzmoser, Geneva 2016-07-07 talk]: solve.default(getCov(mcd)) error  with CovControlOgk() init
 *** INSTEAD it should report the (theoretical) breakdown point (p ...) / (n - h ... ) [from the MCD theory]
-** TODO mc(x) can *fail* to converge: workaround: jitter() -> ~/R/MM/Pkg-ex/robust/Robnik-mc.R
 ** TODO estimethod(): also for lmrob() and glmrob() models
 ** TODO VT implement .detMcd() in C
 ** TODO r6pack(milk, ..): *return* singularity message but do not signal an error

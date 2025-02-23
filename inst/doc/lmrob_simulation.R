@@ -38,6 +38,7 @@ stopifnot(require(ggplot2),
           require(grid),
           require(reshape2))
 source(file.path(robustDoc, 'graphics.functions.R'))
+if(getRversion() < "4.4.0")
 `%||%` <- function (x, orElse) if (!is.null(x)) x else orElse
 
 ## set ggplot theme
@@ -124,8 +125,7 @@ tbl[,2:3] <- apply(tbl[,2:3], 1:2, function(x) {
   gsub('\\$NA\\$', '\\\\texttt{NA}',
        paste('$', unlist(x), collapse=', ', '$', sep='')) })
 tbl[,1] <- paste('\\texttt{', tbl[,1], '}', sep='')
-colnames(tbl) <- paste('\\texttt{', c('psi', 'tuning.chi', 'tuning.psi'),
-                       '}', sep='')
+colnames(tbl) <- paste0('\\texttt{', c('psi', 'tuning.chi', 'tuning.psi'), '}')
 require("xtable") # need also print() method:
 print(xtable(tbl), sanitize.text.function=identity,
       include.rownames = FALSE, floating=FALSE)
@@ -611,7 +611,7 @@ getOption("SweaveHooks")[["fig"]]()
 ## ## exp(mean(log(sigma))): this looks almost identical to mean(sigma)
 print(ggplot(test.3, aes(p/n, exp(meanlogsigma.1), color = Est.Scale)) +
       stat_summary(aes(x=ratio), # <- "rounded p/n": --> median over "neighborhood"
-                   fun.y=median, geom='line') +
+                   fun = median, geom='line') +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       geom_hline(yintercept = 1) +
       g.scale_y_log10_1() +
@@ -626,13 +626,13 @@ print(ggplot(test.3, aes(p/n, exp(meanlogsigma.1), color = Est.Scale)) +
 ###################################################
 getOption("SweaveHooks")[["fig"]]()
 print(ggplot(test.3, aes(p/n, sdlogsigma.1*sqrt(n), color = Est.Scale)) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       ylab(quote(sd(log(hat(sigma)))*sqrt(n))) +
       facet_wrap(~ Psi) +
       geom_point  (data=test.lm.2, alpha=alpha.n, aes(color = Est.Scale)) +
       stat_summary(data=test.lm.2, aes(x=ratio, color = Est.Scale),
-                   fun.y=median, geom='line') +
+                   fun = median, geom='line') +
       scale_shape_discrete(quote(n)) +
       scale_colour_discrete("Scale Est.",
                             labels= lab(test.3   $Est.Scale,
@@ -647,15 +647,14 @@ print(ggplot(test.4,
              aes(p/n, sdlogsigma.1*sqrt(n), color = Est.Scale)) +
       ylim(with(test.4, range(sdlogsigma.1*sqrt(n)))) +
       ylab(quote(sd(log(hat(sigma)))*sqrt(n))) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_point(aes(shape = Error), alpha = alpha.error) +
       facet_wrap(~ Psi) +
-      ## "FIXME" (?): the next 'test.lm' one  give warnings
-      geom_point  (data=test.lm, aes(color = Est.Scale), alpha=alpha.n) +
-      ##-> Warning: Removed 108 rows containing missing values    (geom_point).
+      geom_point  (data=test.lm, aes(color = Est.Scale), alpha=alpha.n, na.rm = TRUE) +
+      ##-> na.rm=T: avoid  Warning: Removed 108 rows containing missing values    (geom_point).
       stat_summary(data=test.lm, aes(x = ratio, color = Est.Scale),
-                   fun.y=median, geom='line') +
-      ##-> Warning: Removed 108 rows containing non-finite values (stat_summary).
+                   fun = median, geom='line', na.rm = TRUE) +
+      ##-> na.rm=T: avoid  Warning: Removed 108 rows containing non-finite values (stat_summary).
       g.scale_shape(labels=lab(test.4$Error)) +
       scale_colour_discrete("Scale Est.",
                             labels=lab(test.4 $Est.Scale,
@@ -669,7 +668,7 @@ getOption("SweaveHooks")[["fig"]]()
 t3est2 <- droplevels(subset(test.3, Estimator %in% c("SMD", "MMqE")))
 print(ggplot(t3est2,
              aes(p/n, q, color = Est.Scale)) + ylab(quote(q)) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       geom_hline(yintercept = 1) +
       g.scale_y_log10_1() +
@@ -684,7 +683,7 @@ print(ggplot(t3est2,
 getOption("SweaveHooks")[["fig"]]()
 print(ggplot(t3est2,
              aes(p/n, M/q, color = Est.Scale)) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       g.scale_y_log10_0.05() +
       facet_wrap(~ Psi) +
@@ -701,7 +700,7 @@ t1.bi <- droplevels(subset(test.1, Estimator %in% c("SMD", "MMqE") &
                                    Psi == 'bisquare'))
 print(ggplot(t1.bi,
              aes(p/n, q, color = Est.Scale)) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       geom_hline(yintercept = 1) +
       g.scale_y_log10_1() +
@@ -718,7 +717,7 @@ print(ggplot(t1.bi,
 getOption("SweaveHooks")[["fig"]]()
 print(ggplot(t1.bi,
              aes(p/n, M/q, color = Est.Scale)) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       g.scale_y_log10_0.05() +
       facet_wrap(~ Error) +
@@ -735,7 +734,7 @@ getOption("SweaveHooks")[["fig"]]()
 print(ggplot(test.2, aes(p/n, efficiency.1, color = Estimator)) +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       geom_hline(yintercept = 0.95) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       facet_wrap(~ Psi) +
       ylab(quote('efficiency of' ~~ hat(beta))) +
       g.scale_shape(quote(n)) +
@@ -753,7 +752,7 @@ print(ggplot(t.1xt1,
       ylab(quote('efficiency of '~hat(beta))) +
       geom_point(aes(shape = Error), alpha = alpha.error) +
       geom_hline(yintercept = 0.95) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       g.scale_shape(values=c(16,17,15,3,7,8,9,1,2,4)[-4],
                     labels=lab(t.1xt1$Error)) +
       facet_wrap(~ Psi) +
@@ -770,9 +769,9 @@ print(ggplot(t.2o., aes(p/n, AdB2.1/(1-p/n), color = Estimator)) +
       geom_point(aes(shape=factor(n)),    alpha = alpha.n) +
       geom_point(aes(y=K2AdB2.1/(1-p/n)), alpha = alpha.n) +
       geom_point(aes(y=AdB2t.1),          alpha = alpha.n) +
-      stat_summary(aes(x=ratio),                     fun.y=median, geom='line') +
-      stat_summary(aes(x=ratio, y=K2AdB2.1/(1-p/n)), fun.y=median, geom='line', linetype=2) +
-      stat_summary(aes(x=ratio, y=AdB2t.1),          fun.y=median, geom='line', linetype=3) +
+      stat_summary(aes(x=ratio),                     fun = median, geom='line') +
+      stat_summary(aes(x=ratio, y=K2AdB2.1/(1-p/n)), fun = median, geom='line', linetype=2) +
+      stat_summary(aes(x=ratio, y=AdB2t.1),          fun = median, geom='line', linetype=3) +
       geom_hline(yintercept = 1/0.95) +
       g.scale_y_log10_1() +
       scale_shape_discrete(quote(n)) +
@@ -791,9 +790,9 @@ print(ggplot(t.2ok,
       geom_point(aes(shape=factor(n)),      alpha = alpha.n) +
       geom_point(aes(y=sdK2AdB2.1/(1-p/n)), alpha = alpha.n) +
       geom_point(aes(y=sdAdB2t.1),          alpha = alpha.n) +
-      stat_summary(aes(x=ratio),                       fun.y=median, geom='line') +
-      stat_summary(aes(x=ratio, y=sdK2AdB2.1/(1-p/n)), fun.y=median, geom='line', linetype= 2) +
-      stat_summary(aes(x=ratio, y=sdAdB2t.1),          fun.y=median, geom='line', linetype= 3) +
+      stat_summary(aes(x=ratio),                       fun = median, geom='line') +
+      stat_summary(aes(x=ratio, y=sdK2AdB2.1/(1-p/n)), fun = median, geom='line', linetype= 2) +
+      stat_summary(aes(x=ratio, y=sdAdB2t.1),          fun = median, geom='line', linetype= 3) +
       g.scale_y_log10_0.05() +
       scale_shape_discrete(quote(n)) +
       scale_colour_discrete(name = "Estimator", labels=lab(t.2ok$Estimator))  +
@@ -808,10 +807,10 @@ getOption("SweaveHooks")[["fig"]]()
 t.2en0 <- droplevels(subset(test.2, emplev_1 != 0))
 print(ggplot(t.2en0,
              aes(p/n, f.truncate(emplev_1), color = method.cov)) +
-      g.truncate.lines + g.truncate.areas +
+      g.truncate.line + g.truncate.area +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
       scale_shape_discrete(quote(n)) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_hline(yintercept = 0.05) +
       g.scale_y_log10_0.05() +
       scale_colour_discrete(name = "Estimator", labels=lab(t.2en0$method.cov))  +
@@ -825,14 +824,14 @@ print(ggplot(t.2en0,
 getOption("SweaveHooks")[["fig"]]()
 tmp <- droplevels(subset(test.1, Psi == 'lqq' & emplev_1 != 0))
 print(ggplot(tmp, aes(p/n, f.truncate(emplev_1), color = method.cov)) +
-      ylab(quote("empirical level "~ list (H[0] : beta[1] == 0) )) +
       g.truncate.line + g.truncate.area +
       geom_point(aes(shape = factor(n)), alpha = alpha.n) +
-      stat_summary(aes(x=ratio), fun.y=median, geom='line') +
+      stat_summary(aes(x=ratio), fun = median, geom='line') +
       geom_hline(yintercept = 0.05) +
       g.scale_y_log10_0.05() +
       g.scale_shape(quote(n)) +
       scale_colour_discrete(name = "Estimator", labels=lab(tmp$method.cov)) +
+      ylab(quote("empirical level "~ list (H[0] : beta[1] == 0) )) +
       facet_wrap(~ Error)
      ,
       legend.mod = legend.mod
@@ -853,9 +852,9 @@ print(ggplot(t2.25,
       ylab(quote("empirical power "~ list (H[0] : beta[1] == 0.2) )) +
       geom_point(# aes(shape = Error),
           alpha = alpha.error) +
-      stat_summary(fun.y=median, geom='line') +
+      stat_summary(fun = median, geom='line') +
       geom_point  (data=tL2.25, alpha = alpha.n) +
-      stat_summary(data=tL2.25, fun.y=median, geom='line') +
+      stat_summary(data=tL2.25, fun = median, geom='line') +
       ## g.scale_shape("Error", labels=lab(t2.25$Error)) +
       scale_col_D2.25 +
       facet_wrap(~ Psi)
@@ -870,10 +869,10 @@ print(ggplot(t2.25,
              aes(p/n, power_1_0.4, color = method.cov)) +
       ylab(quote("empirical power "~ list (H[0] : beta[1] == 0.4) )) +
       geom_point(alpha = alpha.error) +
-      stat_summary(fun.y=median, geom='line') +
+      stat_summary(fun = median, geom='line') +
       geom_point  (data=tL2.25, alpha = alpha.n) +
       stat_summary(data=tL2.25,
-                   fun.y=median, geom='line') +
+                   fun = median, geom='line') +
       ## g.scale_shape("Error", labels=lab(t2.25$Error)) +
       scale_col_D2.25 +
       facet_wrap(~ Psi)
@@ -889,9 +888,9 @@ print(ggplot(t2.25,
       ylab(quote("empirical power "~ list (H[0] : beta[1] == 0.6) )) +
       geom_point(# aes(shape = Error),
           alpha = alpha.error) +
-      stat_summary(fun.y=median, geom='line') +
+      stat_summary(fun = median, geom='line') +
       geom_point  (data=tL2.25, alpha = alpha.n) +
-      stat_summary(data=tL2.25, fun.y=median, geom='line') +
+      stat_summary(data=tL2.25, fun = median, geom='line') +
       scale_col_D2.25 +
       facet_wrap(~ Psi)
       )
@@ -905,9 +904,9 @@ print(ggplot(t2.25,
              aes(p/n, power_1_0.8, color = method.cov)) +
       ylab(quote("empirical power "~ list (H[0] : beta[1] == 0.8) )) +
       geom_point(alpha = alpha.error) +
-      stat_summary(fun.y=median, geom='line') +
+      stat_summary(fun = median, geom='line') +
       geom_point  (data=tL2.25, alpha = alpha.n) +
-      stat_summary(data=tL2.25, fun.y=median, geom='line') +
+      stat_summary(data=tL2.25, fun = median, geom='line') +
       g.scale_shape("Error", labels=lab(t2.25$Error)) +
       scale_col_D2.25 +
       facet_wrap(~ Psi)
@@ -922,9 +921,9 @@ print(ggplot(t2.25,
              aes(p/n, power_1_1, color = method.cov)) +
       ylab(quote("empirical power "~ list (H[0] : beta[1] == 1) )) +
       geom_point(alpha = alpha.error) +
-      stat_summary(fun.y=median, geom='line') +
+      stat_summary(fun = median, geom='line') +
       geom_point  (data=tL2.25, alpha = alpha.n) +
-      stat_summary(data=tL2.25, fun.y=median, geom='line') +
+      stat_summary(data=tL2.25, fun = median, geom='line') +
       ## g.scale_shape("Error", labels=lab(t2.25$Error)) +
       scale_col_D2.25 +
       facet_wrap(~ Psi)
@@ -964,7 +963,7 @@ print(ggplot(test.5,
              aes(Point, f.truncate(value), color = method.cov)) +
       geom_point(aes(shape = Error), alpha = alpha.error) +
       g.truncate.line + g.truncate.area +
-      stat_summary(fun.y=median, geom='line') +
+      stat_summary(fun = median, geom='line') +
       geom_hline(yintercept = 0.05) +
       g.scale_y_log10_0.05() +
       g.scale_shape(labels=lab(test.5$Error)) +
